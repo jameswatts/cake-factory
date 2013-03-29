@@ -39,7 +39,8 @@ class CakeForm extends CakeElement {
  * @var array The template configuration parameters.
  */
 	protected $_params = array(
-		'model' => null
+		'model' => null,
+		'submit' => null
 	);
 
 /**
