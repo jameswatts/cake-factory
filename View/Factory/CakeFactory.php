@@ -48,6 +48,51 @@ class CakeFactory extends CtkFactory {
 	public function setup() {}
 
 /**
+ * Load Html tag configuration.
+ *
+ * Loads a file from APP/Config that contains tag data. By default the file is expected
+ * to be compatible with PhpReader:
+ *
+ * `$this->Html->loadConfig('tags.php');`
+ *
+ * tags.php could look like:
+ *
+ * {{{
+ * $tags = array(
+ *		'meta' => '<meta %s>'
+ * );
+ * }}}
+ *
+ * If you wish to store tag definitions in another format you can give an array
+ * containing the file name, and reader class name:
+ *
+ * `$this->Html->loadConfig(array('tags.ini', 'ini'));`
+ *
+ * Its expected that the `tags` index will exist from any configuration file that is read.
+ * You can also specify the path to read the configuration file from, if APP/Config is not
+ * where the file is.
+ *
+ * `$this->Html->loadConfig('tags.php', APP . 'Lib' . DS);`
+ *
+ * Configuration files can define the following sections:
+ *
+ * - `tags` The tags to replace.
+ * - `minimizedAttributes` The attributes that are represented like `disabled="disabled"`
+ * - `docTypes` Additional doctypes to use.
+ * - `attributeFormat` Format for long attributes e.g. `'%s="%s"'`
+ * - `minimizedAttributeFormat` Format for minimized attributes e.g. `'%s="%s"'`
+ *
+ * @param string|array $configFile String with the config file (load using PhpReader) or an array with file and reader name
+ * @param string $path Path with config file
+ * @return mixed False to error or loaded configs
+ * @throws ConfigureException
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#changing-the-tags-output-by-htmlhelper
+ */
+	final public function loadConfig($configFile, $path = null) {
+		return $this->HtmlHelper->loadConfig($configFile, (isset($path))? $path : null);
+	}
+
+/**
  * Returns false if given form field described by the current entity has no errors.
  * Otherwise it returns the validation message
  *
@@ -128,6 +173,140 @@ class CakeFactory extends CtkFactory {
  */
 	final public function useTag($tag) {
 		return $this->HtmlHelper->useTag($tag);
+	}
+
+/**
+ * Finds URL for specified action.
+ *
+ * Returns a URL pointing at the provided parameters.
+ *
+ * @param string|array $url Either a relative string url like `/products/view/23` or
+ *    an array of url parameters. Using an array for urls will allow you to leverage
+ *    the reverse routing features of CakePHP.
+ * @param boolean $full If true, the full base URL will be prepended to the result
+ * @return string  Full translated URL with base path.
+ * @link http://book.cakephp.org/2.0/en/views/helpers.html
+ */
+	final public function url($url = null, $full = false) {
+		return $this->HtmlHelper->url((isset($url))? $url : null, $full);
+	}
+
+/**
+ * Checks if a file exists when theme is used, if no file is found default location is returned
+ *
+ * @param string $file The file to create a webroot path to.
+ * @return string Web accessible path to file.
+ */
+	final public function webroot($file) {
+		return $this->HtmlHelper->webroot($file);
+	}
+
+/**
+ * Generate url for given asset file. Depending on options passed provides full url with domain name.
+ * Also calls Helper::assetTimestamp() to add timestamp to local files
+ *
+ * @param string|array Path string or url array
+ * @param array $options Options array. Possible keys:
+ *   `fullBase` Return full url with domain name
+ *   `pathPrefix` Path prefix for relative urls
+ *   `ext` Asset extension to append
+ *   `plugin` False value will prevent parsing path as a plugin
+ * @return string Generated url
+ */
+	final public function assetUrl($path, $options = array()) {
+		return $this->HtmlHelper->assetUrl($path, $options);
+	}
+
+/**
+ * Adds a timestamp to a file based resource based on the value of `Asset.timestamp` in
+ * Configure. If Asset.timestamp is true and debug > 0, or Asset.timestamp == 'force'
+ * a timestamp will be added.
+ *
+ * @param string $path The file path to timestamp, the path must be inside WWW_ROOT
+ * @return string Path with a timestamp added, or not.
+ */
+	final public function assetTimestamp($path) {
+		return $this->HtmlHelper->assetTimestamp($path);
+	}
+
+/**
+ * Used to remove harmful tags from content. Removes a number of well known XSS attacks
+ * from content. However, is not guaranteed to remove all possibilities. Escaping
+ * content is the best way to prevent all possible attacks.
+ *
+ * @param string|array $output Either an array of strings to clean or a single string to clean.
+ * @return string|array cleaned content for output
+ */
+	final public function clean($output = '') {
+		return $this->HtmlHelper->clean($output);
+	}
+
+/**
+ * Generates a DOM ID for the selected element, if one is not set.
+ * Uses the current View::entity() settings to generate a CamelCased id attribute.
+ *
+ * @param array|string $options Either an array of html attributes to add $id into, or a string
+ *   with a view entity path to get a domId for.
+ * @param string $id The name of the 'id' attribute.
+ * @return mixed If $options was an array, an array will be returned with $id set. If a string
+ *   was supplied, a string will be returned.
+ */
+	final public function domId($options = null, $id = 'id') {
+		return $this->HtmlHelper->domId((isset($options))? $options : null, $id);
+	}
+
+/**
+ * Sets this helper's model and field properties to the dot-separated value-pair in $entity.
+ *
+ * @param string $entity A field name, like "ModelName.fieldName" or "ModelName.ID.fieldName"
+ * @param boolean $setScope Sets the view scope to the model specified in $tagValue
+ * @return void
+ */
+	final public function setEntity($entity, $setScope = false) {
+		$this->FormHelper->setEntity($entity, $setScope);
+	}
+
+/**
+ * Returns the entity reference of the current context as an array of identity parts
+ *
+ * @return array An array containing the identity elements of an entity
+ */
+	final public function entity() {
+		return $this->FormHelper->entity();
+	}
+
+/**
+ * Gets the currently-used model of the rendering context.
+ *
+ * @return string
+ */
+	final public function model() {
+		return $this->FormHelper->model();
+	}
+
+/**
+ * Gets the currently-used model field of the rendering context.
+ * Strips off field suffixes such as year, month, day, hour, min, meridian
+ * when the current entity is longer than 2 elements.
+ *
+ * @return string
+ */
+	final public function field() {
+		return $this->FormHelper->field();
+	}
+
+/**
+ * Gets the data for the current tag
+ *
+ * @param array|string $options If an array, should be an array of attributes that $key needs to be added to.
+ *   If a string or null, will be used as the View entity.
+ * @param string $field
+ * @param string $key The name of the attribute to be set, defaults to 'value'
+ * @return mixed If an array was given for $options, an array with $key set will be returned.
+ *   If a string was supplied a string will be returned.
+ */
+	final public function value($options = array(), $field = null, $key = 'value') {
+		return $this->FormHelper->value($options, (isset($field))? $field : null, $key);
 	}
 }
 
