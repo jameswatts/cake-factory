@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::uses('CtkFactory', 'Ctk.Lib');
+App::uses('HtmlFactory', 'Ctk.View/Factory');
 
 /**
  * Creates a factory to use the core CakePHP helpers.
@@ -67,7 +67,7 @@ App::uses('CtkFactory', 'Ctk.Lib');
  * @method \CakeYear Year($params = array())
  *
  */
-class CakeFactory extends CtkFactory {
+class CakeFactory extends HtmlFactory {
 
 /**
  * An array containing the names of helpers this factory uses.
