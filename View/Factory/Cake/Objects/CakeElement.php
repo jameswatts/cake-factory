@@ -17,15 +17,14 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::uses('CtkNode', 'Ctk.Lib');
-App::uses('CtkEvent', 'Ctk.Lib');
+App::uses('HtmlElement', 'Ctk.View/Factory/Html/Objects');
 
 /**
  * Abstract class representing a base core CakePHP helper element.
  *
  * @package       CakeFactory.View.Factory.Cake.Objects
  */
-abstract class CakeElement extends CtkNode {
+abstract class CakeElement extends HtmlElement {
 
 /**
  * The template to use for this object.
@@ -78,43 +77,6 @@ abstract class CakeElement extends CtkNode {
 			$this->setId((string) $attributes['id']);
 		}
 		return $attributes;
-	}
-
-/**
- * Gets the content for the events for the template.
- *
- * @return string
- */
-	final public function parseEvents() {
-		$content = '';
-		$hasEvents = $this->hasEvents();
-		$allowsEvents = $this->allowsEvents();
-		$nodeEvents = $this->getEvents();
-		if ($hasEvents || (isset($this->events) && $allowsEvents)) {
-			$content .= '<script type="text/javascript">(function(){';
-		}
-		if ($hasEvents) {
-			foreach ($nodeEvents as $type => $events) {
-				foreach ($events as $event) {
-					$code = $event->render();
-					$callback = uniqid('JS_');
-					$content .= "var node=document.getElementById('{$this->getId()}'),{$callback}=function(){{$code}};if(node.addEventListener){node.addEventListener('{$type}',function(){return {$callback}.apply(node,arguments);});}else if(node.attachEvent){node.attachEvent('on{$type}',function(){return {$callback}.apply(node,arguments);});}else{node['on{$type}']=function(){return {$callback}.apply(node,arguments);};}";
-				}
-			}
-		}
-		if (isset($this->events)) {
-			if ($allowsEvents) {
-				foreach ($this->events as $type => $event) {
-					$code = ($event instanceof CtkEvent)? $event->render() : (string) $event;
-					$callback = uniqid('JS_');
-					$content .= "var node=document.getElementById('{$this->getId()}'),{$callback}=function(){{$code}};if(node.addEventListener){node.addEventListener('{$type}',function(){return {$callback}.apply(node,arguments);});}else if(node.attachEvent){node.attachEvent('on{$type}',function(){return {$callback}.apply(node,arguments);});}else{node['on{$type}']=function(){return {$callback}.apply(node,arguments);};}";
-				}
-			}
-		}
-		if ($hasEvents || (isset($this->events) && $allowsEvents)) {
-			$content .= '})();</script>';
-		}
-		return $content;
 	}
 }
 
