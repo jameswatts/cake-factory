@@ -31,7 +31,7 @@ class CakePostLink extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'post-link';
+	protected $_template = 'post_link';
 
 /**
  * The configuration parameters used by the template for this object.

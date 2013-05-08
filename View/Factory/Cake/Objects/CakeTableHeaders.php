@@ -31,7 +31,7 @@ class CakeTableHeaders extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'table-headers';
+	protected $_template = 'table_headers';
 
 /**
  * The configuration parameters used by the template for this object.

@@ -31,7 +31,7 @@ class CakeTableCells extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'table-cells';
+	protected $_template = 'table_cells';
 
 /**
  * The configuration parameters used by the template for this object.

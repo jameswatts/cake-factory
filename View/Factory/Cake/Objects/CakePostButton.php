@@ -31,7 +31,7 @@ class CakePostButton extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'post-button';
+	protected $_template = 'post_button';
 
 /**
  * The configuration parameters used by the template for this object.

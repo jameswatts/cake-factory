@@ -31,7 +31,7 @@ class CakeDocType extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'doc-type';
+	protected $_template = 'doc_type';
 
 /**
  * The configuration parameters used by the template for this object.

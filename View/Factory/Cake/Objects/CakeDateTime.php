@@ -31,7 +31,7 @@ class CakeDateTime extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'date-time';
+	protected $_template = 'date_time';
 
 /**
  * The configuration parameters used by the template for this object.

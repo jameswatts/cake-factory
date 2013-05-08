@@ -31,7 +31,7 @@ class CakeScriptBlock extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'script-block';
+	protected $_template = 'script_block';
 
 /**
  * The configuration parameters used by the template for this object.

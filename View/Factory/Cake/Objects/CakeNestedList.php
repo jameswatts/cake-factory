@@ -31,7 +31,7 @@ class CakeNestedList extends CakeElement {
  *
  * @var string The name of the template.
  */
-	protected $_template = 'nested-list';
+	protected $_template = 'nested_list';
 
 /**
  * The configuration parameters used by the template for this object.
