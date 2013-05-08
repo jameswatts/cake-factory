@@ -56,6 +56,7 @@ abstract class CakeElement extends HtmlElement {
  */
 	final public function processOptions() {
 		$options = (isset($this->options) && is_array($this->options))? $this->options : array();
+		$options = $this->_attributes+$options;
 		if (!array_key_exists('id', $options) || !$options['id']) {
 			$options['id'] = $this->getId();
 		} else {
@@ -71,6 +72,7 @@ abstract class CakeElement extends HtmlElement {
  */
 	final public function processAttributes() {
 		$attributes = (isset($this->attributes) && is_array($this->attributes))? $this->attributes : array();
+		$attributes = $this->_attributes+$attributes;
 		if (!array_key_exists('id', $attributes) || !$attributes['id']) {
 			$attributes['id'] = $this->getId();
 		} else {
