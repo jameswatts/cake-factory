@@ -17,6 +17,9 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+App::uses('Set', 'Utility');
+App::uses('HelperCollection', 'View');
+App::uses('CtkHelper', 'Ctk.View');
 App::uses('HtmlFactory', 'Ctk.View/Factory');
 
 /**
@@ -92,18 +95,32 @@ class CakeFactory extends HtmlFactory {
  * @return void
  */
 	public function setup() {
+		$updateHtml = false;
+		$updateForm = false;
 		if (isset($this->settings['html'])) {
 			if (is_array($this->settings['html'])) {
+				$updateHtml = true;
 				$this->helpers['HtmlHelper'] = $this->settings['html'];
 			} else if (is_string($this->settings['html'])) {
+				$updateHtml = true;
 				$this->helpers['HtmlHelper']['className'] = $this->settings['html'];
 			}
 		}
 		if (isset($this->settings['form'])) {
 			if (is_array($this->settings['form'])) {
+				$updateForm = true;
 				$this->helpers['FormHelper'] = $this->settings['form'];
 			} else if (is_string($this->settings['form'])) {
+				$updateForm = true;
 				$this->helpers['FormHelper']['className'] = $this->settings['form'];
+			}
+		}
+		if ($updateHtml || $updateForm) {
+			$helpers = HelperCollection::normalizeObjectArray(Set::normalize($this->helpers));
+			$helperCollection = new HelperCollection($this->_view->getBaseView());
+			foreach ($helpers as $name => $properties) {
+				list($plugin, $class) = pluginSplit($properties['class']);
+				$this->_helpers[$class] = new CtkHelper($class, $helperCollection->load($properties['class'], $properties['settings']), $this->_view);
 			}
 		}
 	}
