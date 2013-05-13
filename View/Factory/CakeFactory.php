@@ -84,11 +84,29 @@ class CakeFactory extends HtmlFactory {
 	);
 
 /**
- * Method used to setup additional resources for the factory.
+ * Method used to setup additional resources for the factory. If either the "html" or 
+ * "form" settings are specified, these will be used as the "className" for the helper if 
+ * the value is a string, or the helper settings if the value is an array. Any class used 
+ * must extend the equivalent base helper in the core.
  * 
  * @return void
  */
-	public function setup() {}
+	public function setup() {
+		if (isset($this->settings['html'])) {
+			if (is_array($this->settings['html'])) {
+				$this->helpers['HtmlHelper'] = $this->settings['html'];
+			} else if (is_string($this->settings['html'])) {
+				$this->helpers['HtmlHelper']['className'] = $this->settings['html'];
+			}
+		}
+		if (isset($this->settings['form'])) {
+			if (is_array($this->settings['form'])) {
+				$this->helpers['FormHelper'] = $this->settings['form'];
+			} else if (is_string($this->settings['form'])) {
+				$this->helpers['FormHelper']['className'] = $this->settings['form'];
+			}
+		}
+	}
 
 /**
  * Load Html tag configuration.
