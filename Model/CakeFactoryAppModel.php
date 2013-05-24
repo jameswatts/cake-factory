@@ -1,6 +1,6 @@
 <?php
 
-class CtkBootstrapAppModel extends AppModel {
+class CakeFactoryAppModel extends AppModel {
 
 	
 }
