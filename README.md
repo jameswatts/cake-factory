@@ -60,7 +60,9 @@ $form = $this->Cake->Form(array(
 	// create a CakePHP input
 	$input = $this->Cake->Input(array(
 		'field' => 'Example.column',
-		'type' => 'text'
+		'options' => array(
+			'type' => 'text'
+		)
 	));
 	// bind an event to the input
 	$input->bind('keyup', $this->Js->Alert(array(
