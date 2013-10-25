@@ -386,5 +386,6 @@ class CakeFactory extends HtmlFactory {
 	final public function value($options = array(), $field = null, $key = 'value') {
 		return $this->FormHelper->value($options, (isset($field))? $field : null, $key);
 	}
+
 }
 
